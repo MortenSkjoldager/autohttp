@@ -1,0 +1,20 @@
+{
+  "name": "autohttp",
+  "version": "1.0.0",
+  "description": "cli to autogenerate http files from swagger gen",
+  "main": "bin/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "bin": {
+    "autohttp": "./bin/index.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.1",
+    "commander": "^11.1.0",
+    "fs-extra": "^11.1.1",
+    "yargs": "^17.7.2"
+  }
+}

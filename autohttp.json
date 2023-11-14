@@ -1,0 +1,18 @@
+{
+  "entrypoint": "https://localhost:44386/swagger/v1/swagger.json",
+  "outputPath": "./httpcollection",
+  "environments": [
+    {
+      "key": "dev",
+      "variables": {
+        "baseUrl": "https://localhost:44386/"
+      }
+    },
+    {
+      "key": "stage",
+      "variables": {
+        "baseUrl": "https://stage.mysubdomain.com:44386/"
+      }
+    }
+  ]
+}
