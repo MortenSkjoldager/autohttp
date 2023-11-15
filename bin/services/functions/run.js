@@ -11,7 +11,7 @@ async function run() {
     generator.initializeEnvironments(workspaceSettings, config)
     for(key in spec.paths) {
         generator.generateFolder({
-            outputPath: workspaceSettings.outputPath,
+            outputPath: workspaceSettings.collectionsPath,
             key: key
         });
     }

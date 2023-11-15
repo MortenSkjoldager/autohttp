@@ -1,11 +1,15 @@
 {
   "entrypoint": "https://localhost:44386/swagger/v1/swagger.json",
   "outputPath": "./httpcollection",
+  "collectionsPath": "./collections",
+  "envPath": "./env",
   "environments": [
     {
-      "key": "dev",
+      "key": "env",
       "variables": {
-        "baseUrl": "https://localhost:44386/"
+        "baseUrl": "https://localhost:44386/",
+        "host": "something",
+        "domain": "third"
       }
     },
     {
@@ -16,3 +20,4 @@
     }
   ]
 }
+ 

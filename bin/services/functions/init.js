@@ -3,6 +3,8 @@ const fs = require('fs-extra');
 const defaultConfig = {
     "entrypoint": "https://localhost:44386/swagger/v1/swagger.json",
     "outputPath": "./httpcollection",
+    "collectionsPath": "./collections",
+    "envPath": "./env",
     "environments": [
         {
             "key": "env",
