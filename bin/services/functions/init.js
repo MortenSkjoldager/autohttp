@@ -30,12 +30,10 @@ const options = {
 async function init() {
     const path = process.cwd() + '\\autohttp.json';
     if (fs.existsSync(path)) {
-        console.log('config file already exists...');
         return;
     }
     fs.writeJson(path, defaultConfig, options)
     .then(() => {
-      console.log('Default config created...');
     })
     .catch((err) => {
       console.error('Error writing config file:', err);

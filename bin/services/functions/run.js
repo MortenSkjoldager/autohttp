@@ -11,7 +11,6 @@ async function run() {
     generator.initializeEnvironments(workspaceSettings, config);
     generator.initializeYacConfig(workspaceSettings, config);
     
-    console.log(spec.paths)
     for (let key in spec.paths) {
         generator.generateForPath(key, spec.paths[key], workspaceSettings, config);
     }

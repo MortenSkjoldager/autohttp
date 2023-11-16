@@ -15,15 +15,16 @@ function initializeYacConfig(workspaceSettings, config) {
   } 
 
   const contents = 
-  `// httpyac.config.js
-   module.exports = {
-    // options...
+  `module.exports = {
     log: {
-      level: models.LogLevel.warn,
       supportAnsiColors: true,
     },
     cookieJarEnabled: true,
-    envDirName: 'env',
+    request: {
+      https:  {
+        rejectUnauthorized: false
+       }
+    }
   }`
 
   fileWriter.writeFileWithContents(workspaceSettings.yacConfig, contents)

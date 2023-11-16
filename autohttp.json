@@ -1,14 +1,15 @@
 {
-  "entrypoint": "https://localhost:44386/swagger/v1/swagger.json",
+  "entrypoint": "https://localhost:7247/swagger/v1/swagger.json",
+  "baseApiPath": "api",
   "outputPath": "./httpcollection",
   "collectionsPath": "./collections",
   "envPath": "./env",
   "generateYacConfig": true,
   "environments": [
     {
-      "key": "env",
+      "key": "dev",
       "variables": {
-        "baseUrl": "https://localhost:44386/",
+        "baseUrl": "https://localhost:7247",
         "host": "something",
         "domain": "third"
       }
@@ -16,7 +17,7 @@
     {
       "key": "stage",
       "variables": {
-        "baseUrl": "https://stage.mysubdomain.com:44386/"
+        "baseUrl": "https://localhost:7247"
       }
     }
   ]
