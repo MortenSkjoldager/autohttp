@@ -1,6 +1,7 @@
 {
   "entrypoint": "https://localhost:7247/swagger/v1/swagger.json",
   "baseApiPath": "api",
+  "baseUrlEnvKey": "baseUrl",
   "outputPath": "./httpcollection",
   "collectionsPath": "./collections",
   "envPath": "./env",

@@ -88,7 +88,12 @@ function generateForPath(key, apiPath, workspaceSettings, config) {
 function generateForVerb(verb, operation, segment, apiOutputPath, workspaceSettings, config) {
   console.log(apiOutputPath);
   console.log(segment);
-  fileWriter.writeFileWithContents(path.join(apiOutputPath, verb+"_"+segment.method+".http"), "hello world");
+
+  const lines = [];
+  lines.push(`# @name ${verb}_${segment.area}_${segment.method}`)
+  lines.push(`${verb.toUpperCase()} {{${config.baseUrlEnvKey}}}/${segment.area}/${segment.method}`)
+
+  fileWriter.writeFileWithContents(path.join(apiOutputPath, verb+"_"+segment.method+".http"), lines.join('\n'));
 }
 
 module.exports = { generateFolder, initializeWorkspace, initializeEnvironments, generateForPath, initializeYacConfig }
