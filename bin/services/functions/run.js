@@ -8,13 +8,14 @@ async function run() {
     var spec = await openapiservice.getApiSpec(config.entrypoint);
     var workspaceSettings = await workspaceservice.getWorkspaceSettings(config);
     generator.initializeWorkspace(workspaceSettings);
-    generator.initializeEnvironments(workspaceSettings, config)
-    for(key in spec.paths) {
-        generator.generateFolder({
-            outputPath: workspaceSettings.collectionsPath,
-            key: key
-        });
+    generator.initializeEnvironments(workspaceSettings, config);
+    generator.initializeYacConfig(workspaceSettings, config);
+    
+    console.log(spec.paths)
+    for (let key in spec.paths) {
+        generator.generateForPath(key, spec.paths[key], workspaceSettings, config);
     }
+
 }
 
 module.exports = run

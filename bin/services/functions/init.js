@@ -5,6 +5,7 @@ const defaultConfig = {
     "outputPath": "./httpcollection",
     "collectionsPath": "./collections",
     "envPath": "./env",
+    "generateYacConfig": true,
     "environments": [
         {
             "key": "env",

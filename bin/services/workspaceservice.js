@@ -5,7 +5,8 @@ async function getWorkspaceSettings(config) {
     return {
       outputPath: outputPath,
       collectionsPath: path.join(outputPath,config.collectionsPath),
-      envPath: path.join(outputPath,config.envPath)
+      envPath: path.join(outputPath,config.envPath),
+      yacConfig: path.join(outputPath,".httpyac.config.js")
     }  
 }
 
