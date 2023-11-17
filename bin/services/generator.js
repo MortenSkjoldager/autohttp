@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const fileWriter = require('./filewriter');
+const schemaIntepreter = require('./schemaIntepreter')
 
 function generateFolder(fullPath) {
 
@@ -73,25 +74,31 @@ function sliceKey(config, key) {
   }
 } 
 
-function generateForPath(key, apiPath, workspaceSettings, config) {
+function generateForPath(key, apiPath, spec, workspaceSettings, config) {
 
   let segment = sliceKey(config, key);
   const outputPath = path.join(workspaceSettings.collectionsPath, segment.area);
   generateFolder(outputPath);
   for (verb in apiPath) {
-    generateForVerb(verb, apiPath[verb], segment, outputPath, workspaceSettings, config)
+    generateForVerb(verb, apiPath[verb], segment, spec, outputPath, workspaceSettings, config)
   }
   // fileWriter.writeFileWithContents();
 
 }
 
-function generateForVerb(verb, operation, segment, apiOutputPath, workspaceSettings, config) {
-  console.log(apiOutputPath);
-  console.log(segment);
-
+function generateForVerb(verb, operation, segment, spec, apiOutputPath, workspaceSettings, config) {
   const lines = [];
   lines.push(`# @name ${verb}_${segment.area}_${segment.method}`)
   lines.push(`${verb.toUpperCase()} {{${config.baseUrlEnvKey}}}/${segment.area}/${segment.method}`)
+
+  const schemaRef = schemaIntepreter.verbAcceptsJsonInput(operation);
+  if (schemaRef != null) {
+    lines.push("Content-Type: application/json");
+    lines.push("");
+    var postJson = schemaIntepreter.generateObjectFromRef(spec.components, schemaRef);
+    const formattedJson = JSON.stringify(postJson, null, 2);
+    lines.push(formattedJson);
+  }
 
   fileWriter.writeFileWithContents(path.join(apiOutputPath, verb+"_"+segment.method+".http"), lines.join('\n'));
 }

@@ -12,7 +12,7 @@ async function run() {
     generator.initializeYacConfig(workspaceSettings, config);
     
     for (let key in spec.paths) {
-        generator.generateForPath(key, spec.paths[key], workspaceSettings, config);
+        generator.generateForPath(key, spec.paths[key], spec, workspaceSettings, config);
     }
 
 }
