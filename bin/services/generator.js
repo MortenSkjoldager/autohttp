@@ -1,8 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 const fileWriter = require('./filewriter');
-const schemaIntepreter = require('./schemaIntepreter')
-
+const schemaIntepreter = require('./schemaIntepreter');
+const valueFactory = require('./valueFactory');
 function generateFolder(fullPath) {
 
     if (!fs.existsSync(fullPath)) {
@@ -70,7 +70,8 @@ function sliceKey(config, key) {
   let segments = area.split('/')
   return {
     area: segments[0],
-    method: segments[1]
+    method: segments[1],
+    fullPath: key
   }
 } 
 
@@ -86,10 +87,32 @@ function generateForPath(key, apiPath, spec, workspaceSettings, config) {
 
 }
 
+function replacePathVariables(segment, operation) {
+  var replacedPath = segment.fullPath;
+  if (!operation.parameters) { 
+    return replacedPath; 
+  }
+  
+  for (let param of operation.parameters.filter((param) => param.in == 'path')) {
+    replacedPath = replacedPath.replace(`{${param.name}}`, valueFactory.getValueFromType(param.schema.type))
+  }
+
+  const query = operation
+                  .parameters
+                  .filter((param) => param.in == 'query')
+                  .map((x) => x.name+'='+valueFactory.getValueFromType(x.schema.type)).join('&');
+
+  if (query != null && query != '') {
+    replacedPath = replacedPath + '?' + query;
+  }
+
+  return replacedPath;
+}
+
 function generateForVerb(verb, operation, segment, spec, apiOutputPath, workspaceSettings, config) {
   const lines = [];
   lines.push(`# @name ${verb}_${segment.area}_${segment.method}`)
-  lines.push(`${verb.toUpperCase()} {{${config.baseUrlEnvKey}}}/${segment.area}/${segment.method}`)
+  lines.push(`${verb.toUpperCase()} {{${config.baseUrlEnvKey}}}${replacePathVariables(segment,operation)}`)
 
   const schemaRef = schemaIntepreter.verbAcceptsJsonInput(operation);
   if (schemaRef != null) {
