@@ -1,5 +1,5 @@
 {
-  "entrypoint": "https://localhost:7247/swagger/v1/swagger.json",
+  "entrypoint": "https://omniumapitest.azurewebsites.net/docs/oms/docs.json",
   "baseApiPath": "api",
   "baseUrlEnvKey": "baseUrl",
   "outputPath": "./httpcollection",

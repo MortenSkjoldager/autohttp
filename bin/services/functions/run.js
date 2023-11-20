@@ -7,14 +7,14 @@ async function run() {
     var config = await configservice.loadConfig();
     var spec = await openapiservice.getApiSpec(config.entrypoint);
     var workspaceSettings = await workspaceservice.getWorkspaceSettings(config);
+    
     generator.initializeWorkspace(workspaceSettings);
     generator.initializeEnvironments(workspaceSettings, config);
     generator.initializeYacConfig(workspaceSettings, config);
     
     for (let key in spec.paths) {
-        generator.generateForPath(key, spec.paths[key], spec, workspaceSettings, config);
+        await generator.generateForPath(key, spec.paths[key], spec, workspaceSettings, config);
     }
-
 }
 
 module.exports = run

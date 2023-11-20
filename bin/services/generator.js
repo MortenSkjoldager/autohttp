@@ -56,10 +56,7 @@ function initializeEnvironments(workspaceSettings, config) {
 }
 
 function cleanPath(path) {
-  // Fjern forreste skråstreg
   path = path.replace(/^\/+/, '');
-
-  // Fjern bageste skråstreg
   path = path.replace(/\/+$/, '');
 
   return path;
@@ -67,7 +64,7 @@ function cleanPath(path) {
 
 function sliceKey(config, key) {
   let area = cleanPath(key);
-  let segments = area.split('/')
+  let segments = area.split('/').filter((x) => !x.includes('{'));
   return {
     area: segments[0],
     method: segments[1],
@@ -75,16 +72,13 @@ function sliceKey(config, key) {
   }
 } 
 
-function generateForPath(key, apiPath, spec, workspaceSettings, config) {
-
+async function generateForPath(key, apiPath, spec, workspaceSettings, config) {
   let segment = sliceKey(config, key);
   const outputPath = path.join(workspaceSettings.collectionsPath, segment.area);
   generateFolder(outputPath);
   for (verb in apiPath) {
-    generateForVerb(verb, apiPath[verb], segment, spec, outputPath, workspaceSettings, config)
+    await generateForVerb(verb, apiPath[verb], segment, spec, outputPath, workspaceSettings, config)
   }
-  // fileWriter.writeFileWithContents();
-
 }
 
 function replacePathVariables(segment, operation) {
@@ -92,7 +86,7 @@ function replacePathVariables(segment, operation) {
   if (!operation.parameters) { 
     return replacedPath; 
   }
-  
+
   for (let param of operation.parameters.filter((param) => param.in == 'path')) {
     replacedPath = replacedPath.replace(`{${param.name}}`, valueFactory.getValueFromType(param.schema.type))
   }
@@ -109,7 +103,7 @@ function replacePathVariables(segment, operation) {
   return replacedPath;
 }
 
-function generateForVerb(verb, operation, segment, spec, apiOutputPath, workspaceSettings, config) {
+async function generateForVerb(verb, operation, segment, spec, apiOutputPath, workspaceSettings, config) {
   const lines = [];
   lines.push(`# @name ${verb}_${segment.area}_${segment.method}`)
   lines.push(`${verb.toUpperCase()} {{${config.baseUrlEnvKey}}}${replacePathVariables(segment,operation)}`)
@@ -123,7 +117,7 @@ function generateForVerb(verb, operation, segment, spec, apiOutputPath, workspac
     lines.push(formattedJson);
   }
 
-  fileWriter.writeFileWithContents(path.join(apiOutputPath, verb+"_"+segment.method+".http"), lines.join('\n'));
+  await fileWriter.writeFileWithContents(path.join(apiOutputPath, verb+"_"+segment.method+"_"+operation.operationId+".http"), lines.join('\n'));
 }
 
 module.exports = { generateFolder, initializeWorkspace, initializeEnvironments, generateForPath, initializeYacConfig }
