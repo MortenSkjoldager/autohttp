@@ -5,6 +5,7 @@
   "outputPath": "./httpcollection",
   "collectionsPath": "./collections",
   "envPath": "./env",
+  "pathAndQueryMode": "var",
   "generateYacConfig": true,
   "environments": [
     {
