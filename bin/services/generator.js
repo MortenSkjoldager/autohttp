@@ -63,7 +63,8 @@ function cleanPath(path) {
 }
 
 function sliceKey(config, key) {
-  let area = cleanPath(key);
+  let cleanKey = key.replace(config.baseApiPath, '');
+  let area = cleanPath(cleanKey);
   let segments = area.split('/').filter((x) => !x.includes('{'));
   return {
     area: segments[0],

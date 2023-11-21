@@ -1,6 +1,6 @@
 {
   "entrypoint": "https://omniumapitest.azurewebsites.net/docs/oms/docs.json",
-  "baseApiPath": "api",
+  "baseApiPath": "api/",
   "baseUrlEnvKey": "baseUrl",
   "outputPath": "./httpcollection",
   "collectionsPath": "./collections",
