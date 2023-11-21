@@ -118,17 +118,18 @@ function replacePathVariables(segment, operation, config) {
 
 async function generateForVerb(verb, operation, segment, spec, apiOutputPath, workspaceSettings, config) {
   const lines = [];
+  lines.push(`# @name ${verb}_${segment.area}_${operation.operationId} \n`)
+
   if (config.pathAndQueryMode && config.pathAndQueryMode == 'var' && operation.parameters && Array.isArray(operation.parameters)) {
     for (let parameter of operation.parameters) {
       lines.push('@'+generateVariableNameFromOperation(operation, parameter)+'='+valueFactory.getValueFromType(parameter.schema.type))
     }
   }
 
-  lines.push(`# @name ${verb}_${segment.area}_${operation.operationId}`)
   lines.push(`${verb.toUpperCase()} {{${config.baseUrlEnvKey}}}${replacePathVariables(segment,operation, config)}`)
-  lines.push('\n');
   const schemaRef = schemaIntepreter.verbAcceptsJsonInput(operation);
   if (schemaRef != null) {
+    lines.push('\n')
     lines.push('Content-Type: application/json');
     lines.push('\n');
     var postJson = schemaIntepreter.generateObjectFromRef(spec.components, schemaRef);
