@@ -1,3 +1,5 @@
+const valueFactory = require('./valueFactory');
+
 function generateObjectFromRef(components, ref) {
     const schema = getSchemaByRef(components, ref);
     if (schema) {
@@ -30,12 +32,11 @@ function generateObjectFromRef(components, ref) {
     } else if (schema.enum) {
       return schema.enum[0];
     } else if (schema.format === 'date-time') {
-      // Here you may want to use a library like faker to generate a realistic date-time value.
       return new Date().toISOString();
     } else if (schema.type === 'string') {
-      return 'Sample String';
+      return valueFactory.getValueFromType(schema.type);
     } else if (schema.type === 'integer') {
-      return 42; // Adjust the integer value as needed
+      return valueFactory.getValueFromType(schema.type);
     } else if (schema.type === 'boolean') {
       return true;
     } else {
