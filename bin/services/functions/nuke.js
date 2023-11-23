@@ -6,7 +6,7 @@ async function nuke() {
     var config = await configservice.loadConfig();
     var settings = await workspaceservice.getWorkspaceSettings(config);
 
-    fsekstra.remove(settings.outputPath)
+    await fsekstra.remove(settings.outputPath)
     .then(() => {
       console.log('Mappen er slettet.');
     })

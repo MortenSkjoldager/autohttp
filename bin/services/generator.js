@@ -129,9 +129,8 @@ async function generateForVerb(verb, operation, segment, spec, apiOutputPath, wo
   lines.push(`${verb.toUpperCase()} {{${config.baseUrlEnvKey}}}${replacePathVariables(segment,operation, config)}`)
   const schemaRef = schemaIntepreter.verbAcceptsJsonInput(operation);
   if (schemaRef != null) {
-    lines.push('\n')
     lines.push('Content-Type: application/json');
-    lines.push('\n');
+    lines.push('');
     var postJson = schemaIntepreter.generateObjectFromRef(spec.components, schemaRef);
     const formattedJson = JSON.stringify(postJson, null, 2);
     lines.push(formattedJson);
